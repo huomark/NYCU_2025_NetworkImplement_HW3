@@ -1,0 +1,87 @@
+{
+    "template_game": {
+        "name": "Template Game",
+        "version": "1.0.1",
+        "description": "A basic echo server game template.",
+        "type": "CLI",
+        "min_players": 1,
+        "max_players": 2,
+        "entry_point": "server.py",
+        "client_entry_point": "client.py",
+        "game_id": "template_game",
+        "owner": "test_dev_1765961449",
+        "reviews": [],
+        "versions": [
+            "1.0.0",
+            "1.0.1"
+        ]
+    },
+    "template_game_1765961483": {
+        "name": "Template Game",
+        "version": "1.0.1",
+        "description": "A basic echo server game template.",
+        "type": "CLI",
+        "min_players": 1,
+        "max_players": 2,
+        "entry_point": "server.py",
+        "client_entry_point": "client.py",
+        "game_id": "template_game_1765961483",
+        "owner": "test_dev_1765961483",
+        "reviews": [],
+        "versions": [
+            "1.0.0",
+            "1.0.1"
+        ]
+    },
+    "template_game_1765962373": {
+        "name": "Template Game",
+        "version": "1.0.1",
+        "description": "A basic echo server game template.",
+        "type": "CLI",
+        "min_players": 1,
+        "max_players": 2,
+        "entry_point": "server.py",
+        "client_entry_point": "client.py",
+        "game_id": "template_game_1765962373",
+        "owner": "test_dev_1765962373",
+        "reviews": [],
+        "versions": [
+            "1.0.0",
+            "1.0.1"
+        ]
+    },
+    "template_game_1765983753": {
+        "name": "Template Game",
+        "version": "1.0.1",
+        "description": "A basic echo server game template.",
+        "type": "CLI",
+        "min_players": 1,
+        "max_players": 2,
+        "entry_point": "server.py",
+        "client_entry_point": "client.py",
+        "game_id": "template_game_1765983753",
+        "owner": "test_dev_1765983753",
+        "reviews": [],
+        "versions": [
+            "1.0.0",
+            "1.0.1"
+        ]
+    },
+    "test": {
+        "name": "test",
+        "version": "v1.0.1",
+        "description": "Description of test",
+        "type": "CLI",
+        "min_players": 1,
+        "max_players": 2,
+        "entry_point": "server.py",
+        "client_entry_point": "client.py",
+        "game_id": "test",
+        "owner": "a",
+        "reviews": [],
+        "versions": [
+            "1.0.0",
+            "v1.0.1"
+        ]
+    }
+}

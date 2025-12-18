@@ -1,0 +1,50 @@
+{
+    "developers": {
+        "test_dev_1765961449": {
+            "password": "123",
+            "games": []
+        },
+        "test_dev_1765961468": {
+            "password": "123",
+            "games": []
+        },
+        "test_dev_1765961483": {
+            "password": "123",
+            "games": []
+        },
+        "test_dev_1765962373": {
+            "password": "123",
+            "games": []
+        },
+        "test_dev_1765983753": {
+            "password": "123",
+            "games": []
+        },
+        "a": {
+            "password": "a",
+            "games": []
+        }
+    },
+    "players": {
+        "p1_1765961449": {
+            "password": "123",
+            "games": []
+        },
+        "p1_1765961483": {
+            "password": "123",
+            "games": []
+        },
+        "p1_1765962373": {
+            "password": "123",
+            "games": []
+        },
+        "a": {
+            "password": "a",
+            "games": []
+        },
+        "p1_1765983753": {
+            "password": "123",
+            "games": []
+        }
+    }
+}

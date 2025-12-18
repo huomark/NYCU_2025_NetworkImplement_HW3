@@ -1,0 +1,10 @@
+{
+    "name": "Template Game",
+    "version": "1.0.0",
+    "description": "A basic echo server game template.",
+    "type": "CLI",
+    "min_players": 1,
+    "max_players": 2,
+    "entry_point": "server.py",
+    "client_entry_point": "client.py"
+}
