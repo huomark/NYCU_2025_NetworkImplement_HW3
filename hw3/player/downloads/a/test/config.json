@@ -1,10 +1,11 @@
 {
     "name": "test",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "Description of test",
     "type": "CLI",
     "min_players": 1,
     "max_players": 2,
     "entry_point": "server.py",
-    "client_entry_point": "client.py"
+    "client_entry_point": "client.py",
+    "game_id": "test"
 }

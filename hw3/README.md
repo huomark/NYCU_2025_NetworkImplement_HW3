@@ -23,14 +23,7 @@ hw3/
   games/
 ```
 
-### 2. Start the Server
-Run the Main Server. This must differ from Game Servers.
-```bash
-python -m server.server
-```
-*The server listens on 0.0.0.0:8888 by default.*
-
-### 3. Developer Workflow (Upload a Game)
+### 2. Developer Workflow (Upload a Game)
 1. Open a new terminal.
 2. Run Developer Client:
    ```bash
@@ -42,7 +35,7 @@ python -m server.server
    - Use default path `games/template` for a test game.
    - The game "Template Game" will be uploaded.
 
-### 4. Player Workflow (Play the Game)
+### 3. Player Workflow (Play the Game)
 1. Open a new terminal (Player 1).
 2. Run Player Client:
    ```bash

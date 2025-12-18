@@ -102,8 +102,20 @@ class GameManager:
                 # Prompt says: "Server... deployed on Linux". HW2 environment.
                 # So we can't use CREATE_NEW_CONSOLE.
                 
+                # room.process = subprocess.Popen(cmd, cwd=game_dir)
                 room.process = subprocess.Popen(cmd, cwd=game_dir)
-                return True, {"port": port, "ip": "127.0.0.1"} # Return IP/Port to clients
+                
+                # Get actual LAN IP to return to clients
+                try:
+                    # Trick to get IP that's connected to internet/network
+                    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                    s.connect(("8.8.8.8", 80))
+                    host_ip = s.getsockname()[0]
+                    s.close()
+                except:
+                    host_ip = "127.0.0.1"
+                
+                return True, {"port": port, "ip": host_ip} # Return IP/Port to clients
             except Exception as e:
                 return False, str(e)
 

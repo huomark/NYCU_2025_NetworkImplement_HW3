@@ -20,6 +20,10 @@ class RequestHandler:
         cmd = request.get(FIELD_COMMAND)
         payload = request.get(FIELD_PAYLOAD, {})
         
+        # INJECT TOKEN into payload so handlers can find it
+        if FIELD_TOKEN in request:
+            payload[FIELD_TOKEN] = request[FIELD_TOKEN]
+        
         handler_map = {
             CMD_DEV_REGISTER: self.handle_dev_register,
             CMD_DEV_LOGIN: self.handle_dev_login,
@@ -75,8 +79,20 @@ class RequestHandler:
     def handle_dev_login(self, payload, sock):
         username = payload.get("username")
         password = payload.get("password")
+        
+        # Check double login
+        if username in self.sessions:
+             return {FIELD_STATUS: STATUS_ERROR, FIELD_MESSAGE: "User already logged in"}
+             
         if self.db.validate_user("developers", username, password):
-            return {FIELD_STATUS: STATUS_OK, FIELD_TOKEN: username} # simple token
+            # Devs don't strictly need persistent session unless we want to track them for notifications?
+            # But assignment implies "online status" usually for Players.
+            # However, for consistency and preventing weird state, let's track dev sessions too if needed?
+            # Actually, `sessions` is used for `handle_disconnect` cleanup.
+            # If we don't add Dev to sessions, we can't detect their disconnect easily (though request_handler manages sock).
+            # Let's add them to be safe, though they don't play games.
+            self.sessions[username] = sock
+            return {FIELD_STATUS: STATUS_OK, FIELD_TOKEN: username} 
         return {FIELD_STATUS: STATUS_ERROR, FIELD_MESSAGE: "Invalid credentials"}
 
     def handle_game_upload(self, payload, sock):
@@ -172,6 +188,10 @@ class RequestHandler:
     def handle_player_login(self, payload, sock):
         username = payload.get("username")
         password = payload.get("password")
+        
+        if username in self.sessions:
+             return {FIELD_STATUS: STATUS_ERROR, FIELD_MESSAGE: "User already logged in"}
+             
         if self.db.validate_user("players", username, password):
             self.sessions[username] = sock # Track session
             return {FIELD_STATUS: STATUS_OK, FIELD_TOKEN: username}
@@ -258,14 +278,6 @@ class RequestHandler:
         room_id = payload.get("room_id")
         success, res = self.gm.start_game(room_id, host)
         if success:
-            # Broadcast to all players in room
-            # res is {"port": ..., "ip": ...}
-            # We need room info to get player list
-            # GameManager doesn't easily expose room object, let's fetch list
-            # But list_rooms returns summary. 
-            # We should probably access gm.rooms directly or add get_room_players method.
-            # For speed, accessing private rooms or assumes I return players in start_game?
-            # Let's use internal access for now or assume I can get it.
             room = self.gm.rooms.get(room_id)
             if room:
                 for p in room.players:
@@ -278,8 +290,10 @@ class RequestHandler:
                                     FIELD_PAYLOAD: res
                                 }
                                 import shared.utils as utils
+                                print(f"DEBUG: Sending GAME_START to {p} via {p_sock}")
                                 utils.send_json(p_sock, notify)
-                            except:
+                            except Exception as e:
+                                print(f"DEBUG: Failed to send to {p}: {e}")
                                 pass # socket dead?
 
             return {FIELD_STATUS: STATUS_OK, FIELD_PAYLOAD: res}

@@ -431,6 +431,7 @@ class PlayerClient:
                 msg = utils.recv_json(self.sock)
                 if not msg: continue
                 
+                print(f"DEBUG: Received message in wait_room: {msg.get(FIELD_COMMAND)}")
                 if msg.get(FIELD_COMMAND) == "GAME_START":
                     info = msg.get(FIELD_PAYLOAD)
                     self.launch_game(game_id, info['ip'], info['port'])
@@ -441,7 +442,7 @@ class PlayerClient:
         self.launcher.launch(user_dir, game_id, ip, port, self.username)
 
 if __name__ == "__main__":
-    host_ip = input("please input server ip: ").strip()
+    host_ip = "linux2.cs.nycu.edu.tw"
     if not host_ip:
         host_ip = '127.0.0.1'
         

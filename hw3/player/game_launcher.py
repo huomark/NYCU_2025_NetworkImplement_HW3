@@ -37,6 +37,7 @@ class GameLauncher:
             return False
             
         print(f"Launching {game_id}...")
+        print(f"DEBUG: Executing {script_path} with IP={ip} Port={port}")
         # New console for game client
         cmd = [sys.executable, script_path, ip, str(port), username]
         

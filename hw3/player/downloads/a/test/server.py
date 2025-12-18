@@ -10,16 +10,41 @@ if len(sys.argv) < 2:
 PORT = int(sys.argv[1])
 HOST = '0.0.0.0'
 
+clients = []
+clients_lock = threading.Lock()
+
+def broadcast(message, sender_conn):
+    with clients_lock:
+        for conn in clients:
+            try:
+                # Send to everyone (including sender, or not? usually yes for chat feel)
+                # But Echo also sends back. Let's send to everyone.
+                conn.sendall(message)
+            except:
+                pass
+
 def handle_client(conn, addr):
     print(f"Game: New connection from {addr}")
-    conn.sendall(b"Welcome to " + b"b'test'" + b"!\n")
-    while True:
-        data = conn.recv(1024)
-        if not data:
-            break
-        # Echo
-        conn.sendall(b"eeecho: " + data)
-    conn.close()
+    
+    with clients_lock:
+        clients.append(conn)
+        
+    try:
+        conn.sendall(b"Welcome to the Global Chat Room!\n")
+        
+        while True:
+            data = conn.recv(1024)
+            if not data:
+                break
+            
+            # Broadcast
+            msg = f"User{addr[1]}: ".encode() + data
+            broadcast(msg, conn)
+    finally:
+        with clients_lock:
+            if conn in clients:
+                clients.remove(conn)
+        conn.close()
 
 def main():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

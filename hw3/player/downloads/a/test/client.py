@@ -22,11 +22,18 @@ def receive_loop(sock):
             break
 
 def main():
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((HOST, PORT))
-    except Exception as e:
-        print(f"Failed to connect: {e}")
+    import time
+    for i in range(10):
+        try:
+            print(f"Connecting to {HOST}:{PORT} (Attempt {i+1}/10)...")
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((HOST, PORT))
+            break
+        except Exception as e:
+            print(f"Connection failed: {e}")
+            time.sleep(1)
+    else:
+        print("Could not connect after 10 attempts.")
         return
 
     print(f"Connected to Game Server at {HOST}:{PORT}")
@@ -45,4 +52,9 @@ def main():
         s.close()
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(f"CRITICAL ERROR: {e}")
+    finally:
+        input("Press Enter to exit...")

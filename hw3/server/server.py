@@ -77,6 +77,7 @@ class ThreadedTCPRequestHandler(socketserver.BaseRequestHandler):
             self.server.app_handler.handle_disconnect(self.request)
 
 class GameStoreServer(socketserver.ThreadingMixIn, socketserver.TCPServer):
+    allow_reuse_address = True
     pass
 
 def main():
